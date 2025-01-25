@@ -47,7 +47,11 @@ const flights = await getRecentFlights();
 									datetime={flight.timestamp.toString()}
 									class="text-sm text-gray-500 mt-3 block"
 								>
-									{new Date(flight.timestamp).toLocaleString()}
+									{new Date(flight.timestamp).toLocaleString("en-US", {
+										timeZone: "Asia/Kolkata",
+										dateStyle: "medium",
+										timeStyle: "short",
+									})}
 								</time>
 							</div>
 						</div>
