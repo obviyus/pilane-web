@@ -12,10 +12,14 @@ import { Image } from "astro:assets";
 
     <div>
       <p class="my-4">
-        I live near an airport. I was with a couple of friends on the terrace
-        the other day, and noticed how often planes fly over us. It was a Friday
-        and thus, Pilane was born over the weekend. It was a joy to build. I'll
-        post a more detailed write-up on my blog soon.
+        I live quite close to an airport, I can see planes flying overhead all
+        the time. I was on the terrace one day with a couple friends and was
+        quite surprised by the number of planes that flew over us. It was a
+        Friday and this, Pi-lane was born. It was a joy to build this. You can
+        find a more detailed write-up <a
+          class="text-blue-500"
+          href="https://obviy.us/blog/pilane-spotting/">here</a
+        >.
       </p>
 
       <p class="my-4">
@@ -24,12 +28,13 @@ import { Image } from "astro:assets";
 
       <ul class="list-disc pl-6 mb-6">
         <li>
-          The primary camera is an old Android Nokia device. I pull the images
-          from it using <code>adb</code> and <code>scrcpy</code>
+          The camera is an old Android Nokia device. I pull the images from it
+          using <code>adb</code> and <code>scrcpy</code>
         </li>
         <li>The images are copied to a Raspberry Pi running YOLOv11</li>
         <li>
-          Flightradar API fetches the details about the aircraft and the flight
+          The Pythons script uses the Flightradar API fetches the details about
+          the aircraft and the flight
         </li>
       </ul>
 
@@ -52,6 +57,7 @@ import { Image } from "astro:assets";
       </ul>
 
       There's also a Telegram channel where the script posts the images: <a
+        class="text-blue-500"
         href="https://t.me/pilanespotting">https://t.me/pilanespotting</a
       >
 
