@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import { getFlightsByModel, getUniqueModels } from "../../utils/db";
 import { images } from "../../utils/imageImports";
+import { formatApproximateTime } from "../../utils/dateFormat";
 
 export async function getStaticPaths() {
   const models = await getUniqueModels();
@@ -67,11 +68,7 @@ const flights = await getFlightsByModel(model);
                   datetime={flight.timestamp.toString()}
                   class="text-sm text-gray-500 mt-3 block"
                 >
-                  {new Date(flight.timestamp).toLocaleString("en-US", {
-                    timeZone: "Asia/Kolkata",
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
+                  {formatApproximateTime(flight.timestamp)}
                 </time>
               </div>
             </div>
