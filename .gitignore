@@ -26,3 +26,5 @@ pnpm-debug.log*
 # project specific
 data/
 src/utils/imageImports.ts
+.jampack/
+.vscode/

@@ -7,10 +7,7 @@ const { title = "Plane Spotting" } = Astro.props;
 ---
 
 <!doctype html>
-<html
-	lang="en"
-	class="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950"
->
+<html lang="en" class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Plane spotting photography collection" />
@@ -26,30 +23,28 @@ const { title = "Plane Spotting" } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body class="min-h-screen flex flex-col relative">
-		<div
-			class="fixed inset-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 -z-10"
-		>
+		<div class="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10">
 		</div>
 		<header
-			class="border-b border-gray-100 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md fixed top-0 w-full z-10"
+			class="border-b border-gray-100 bg-white/90 backdrop-blur-md fixed top-0 w-full z-10"
 		>
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div class="flex items-center justify-between h-16">
 					<div class="flex items-center">
-						<a href="/" class="text-xl font-bold text-gray-900 dark:text-white">
+						<a href="/" class="text-xl font-bold text-gray-900">
 							✈️ Plane Spotting
 						</a>
 					</div>
 					<nav class="flex items-center space-x-4">
 						<a
 							href="/"
-							class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+							class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
 						>
 							Gallery
 						</a>
 						<a
 							href="/about"
-							class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+							class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
 						>
 							About
 						</a>
@@ -62,9 +57,9 @@ const { title = "Plane Spotting" } = Astro.props;
 			<slot />
 		</main>
 
-		<footer class="border-t border-gray-100 dark:border-gray-800 mt-auto">
+		<footer class="border-t border-gray-100 mt-auto">
 			<div class="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8">
-				<p class="text-center text-gray-500 dark:text-gray-400 text-sm">
+				<p class="text-center text-gray-500 text-sm">
 					Made by <a href="https://obviy.us">obviyus</a>
 				</p>
 			</div>

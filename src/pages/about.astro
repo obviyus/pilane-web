@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PhoneSetup from "../assets/phone.jpg";
+import { Image } from "astro:assets";
+---
+
+<Layout>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-3xl font-bold mb-8">About Pilane</h1>
+
+    <Image src={PhoneSetup} alt="Phone setup" class="w-96 object-cover" />
+
+    <div>
+      <p class="my-4">
+        I live near an airport. I was with my friends on the terrace the other
+        day and noticed how often planes fly over us. It was a Friday and thus,
+        Pilane was born over the weekend. I'm not yet sure how long I plan to
+        run it.
+
+        <br />
+
+        Some fun facts:
+      </p>
+
+      <ul class="list-disc pl-6 mb-6">
+        <li>
+          The primary camera is an old Android Nokia device. I pull the images
+          from it using <code>adb</code> and <code>scrcpy</code>
+        </li>
+        <li>The images are copied to a Raspberry Pi running YOLOv11</li>
+        <li>
+          Flightradar API fetches the details about the aircraft and the flight
+        </li>
+      </ul>
+
+      <p>
+        It ends up missing a few flights since inference on the Pi 3B+ takes
+        about 2.5s per image, even when using the NCNN export of YOLOv11. I
+        could upgrade the Pi but using an underpowered device is part of the
+        fun, I really enjoyed the challenge.
+      </p>
+    </div>
+  </div>
+</Layout>
