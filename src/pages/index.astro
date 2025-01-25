@@ -14,7 +14,11 @@ const flights = await getRecentFlights();
 		>
 			{
 				flights
-					.filter((flight) => images[flight.fr24Id] !== "unknown")
+					.filter(
+						(flight) =>
+							images[flight.fr24Id] !== "unknown" &&
+							images[flight.fr24Id] !== undefined,
+					)
 					.map((flight) => (
 						<div class="bg-white border-1 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 backdrop-blur-sm">
 							<div class="relative">
