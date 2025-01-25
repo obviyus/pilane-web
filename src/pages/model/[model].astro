@@ -1,0 +1,82 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import { getFlightsByModel, getUniqueModels } from "../../utils/db";
+import { images } from "../../utils/imageImports";
+
+export async function getStaticPaths() {
+  const models = await getUniqueModels();
+  return models.map((model) => ({ params: { model } }));
+}
+
+const { model } = Astro.params;
+if (!model) {
+  throw new Error("No model provided");
+}
+
+const flights = await getFlightsByModel(model);
+---
+
+<Layout title={`${model} - Pi-lane Spotting`}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">{model}</h1>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+    >
+      {
+        flights
+          .filter(
+            (flight) =>
+              images[flight.fr24Id] !== "unknown" &&
+              images[flight.fr24Id] !== undefined,
+          )
+          .map((flight) => (
+            <div class="bg-white border-1 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 backdrop-blur-sm">
+              <div class="relative">
+                <Image
+                  src={images[flight.fr24Id] || images["unknown"]}
+                  alt={`Flight ${flight.callsign}`}
+                  class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                  width={600}
+                  height={400}
+                />
+                <div class="absolute top-3 right-3">
+                  <span class="bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm font-medium">
+                    {flight.registration}
+                  </span>
+                </div>
+              </div>
+              <div class="p-5">
+                <h2 class="text-xl font-bold text-gray-900">
+                  <a
+                    class="text-blue-500 underline"
+                    href={`https://flightradar24.com/${flight.callsign}/${flight.fr24Id}`}
+                  >
+                    {flight.callsign}
+                  </a>
+                </h2>
+                <p class="text-gray-600 mt-2 font-medium">
+                  {flight.operator} • {flight.type}
+                </p>
+                <div class="mt-4 flex items-center text-gray-700">
+                  <span class="font-semibold">{flight.origIata}</span>
+                  <span class="mx-2">→</span>
+                  <span class="font-semibold">{flight.destIata}</span>
+                </div>
+                <time
+                  datetime={flight.timestamp.toString()}
+                  class="text-sm text-gray-500 mt-3 block"
+                >
+                  {new Date(flight.timestamp).toLocaleString("en-US", {
+                    timeZone: "Asia/Kolkata",
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}
+                </time>
+              </div>
+            </div>
+          ))
+      }
+    </div>
+  </div>
+</Layout>

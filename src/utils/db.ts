@@ -52,3 +52,50 @@ export function getRecentFlights() {
 		timestamp: row.timestamp,
 	}));
 }
+
+export function getUniqueModels() {
+	const db = getDb();
+	const rows = db
+		.query("SELECT DISTINCT type FROM flights ORDER BY type ASC;")
+		.all() as { type: string }[];
+
+	return rows.map((row) => row.type);
+}
+
+export function getFlightsByModel(model: string) {
+	const db = getDb();
+	const rows = db
+		.query(
+			`SELECT 
+        fr24_id, flight, callsign, type, registration,
+        operator, orig_iata, dest_iata, timestamp
+      FROM flights 
+      WHERE type = $model
+      ORDER BY timestamp DESC;`,
+		)
+		.all({
+			$model: model,
+		}) as {
+		fr24_id: string;
+		flight: string;
+		callsign: string;
+		type: string;
+		registration: string;
+		operator: string;
+		orig_iata: string;
+		dest_iata: string;
+		timestamp: number;
+	}[];
+
+	return rows.map((row) => ({
+		fr24Id: row.fr24_id,
+		flight: row.flight,
+		callsign: row.callsign,
+		type: row.type,
+		registration: row.registration,
+		operator: row.operator,
+		origIata: row.orig_iata,
+		destIata: row.dest_iata,
+		timestamp: row.timestamp,
+	}));
+}
