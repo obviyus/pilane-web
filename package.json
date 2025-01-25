@@ -1,14 +1,15 @@
 {
-  "name": "",
+  "name": "pilane-web",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "bunx --bun astro dev",
+    "build": "bunx --bun astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "predev": "bun ./scripts/generateImageImports.ts",
-    "prebuild": "bun ./scripts/generateImageImports.ts"
+    "predev": "bun run ./scripts/generateImageImports.ts",
+    "prebuild": "bun run ./scripts/generateImageImports.ts",
+    "postbuild": "bunx @divriots/jampack ./dist"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.5",
