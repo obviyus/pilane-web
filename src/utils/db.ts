@@ -99,3 +99,17 @@ export function getFlightsByModel(model: string) {
 		timestamp: row.timestamp,
 	}));
 }
+
+export function getModelImageCounts() {
+	const db = getDb();
+	const rows = db
+		.query(`
+      SELECT type, COUNT(*) as count 
+      FROM flights 
+      GROUP BY type 
+      ORDER BY type ASC;
+    `)
+		.all() as { type: string; count: number }[];
+
+	return Object.fromEntries(rows.map((row) => [row.type, row.count]));
+}

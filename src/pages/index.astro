@@ -1,11 +1,16 @@
 ---
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import { getRecentFlights, getUniqueModels } from "../utils/db";
+import {
+	getRecentFlights,
+	getUniqueModels,
+	getModelImageCounts,
+} from "../utils/db";
 import { images } from "../utils/imageImports";
 
 const flights = await getRecentFlights();
 const models = await getUniqueModels();
+const modelCounts = await getModelImageCounts();
 ---
 
 <Layout>
@@ -19,7 +24,9 @@ const models = await getUniqueModels();
 							href={`/model/${model}`}
 							class="bg-white px-4 py-2 border-1 shadow-sm hover:shadow-md transition-all duration-300 text-gray-800 border border-gray-100"
 						>
-							<code>{model}</code>
+							<code>
+								{model} ({modelCounts[model]})
+							</code>
 						</a>
 					))
 				}
