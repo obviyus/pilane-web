@@ -1,16 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
-import {
-	getRecentFlights,
-	getUniqueModels,
-	getModelImageCounts,
-} from "../utils/db";
+import { getRecentFlights, getUniqueModels } from "../utils/db";
 import { images } from "../utils/imageImports";
 
 const flights = await getRecentFlights();
 const models = await getUniqueModels();
-const modelCounts = await getModelImageCounts();
 ---
 
 <Layout>
@@ -19,16 +14,18 @@ const modelCounts = await getModelImageCounts();
 			<h2 class="text-2xl font-bold text-gray-900 mb-4">Aircraft Models</h2>
 			<div class="flex flex-wrap gap-3">
 				{
-					models.map((model) => (
-						<a
-							href={`/model/${model}`}
-							class="bg-white px-4 py-2 border-1 shadow-sm hover:shadow-md transition-all duration-300 text-gray-800 border border-gray-100"
-						>
-							<code>
-								{model} ({modelCounts[model]})
-							</code>
-						</a>
-					))
+					models
+						.sort((a, b) => b.count - a.count)
+						.map((model) => (
+							<a
+								href={`/model/${model.type}`}
+								class="bg-white px-4 py-2 border-1 shadow-sm hover:shadow-md transition-all duration-300 text-gray-800 border border-gray-100"
+							>
+								<code>
+									{model.type} ({model.count})
+								</code>
+							</a>
+						))
 				}
 			</div>
 		</div>

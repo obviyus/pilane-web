@@ -56,10 +56,18 @@ export function getRecentFlights() {
 export function getUniqueModels() {
 	const db = getDb();
 	const rows = db
-		.query("SELECT DISTINCT type FROM flights ORDER BY type ASC;")
-		.all() as { type: string }[];
+		.query(`
+			SELECT type, COUNT(*) as count 
+			FROM flights 
+			GROUP BY type 
+			ORDER BY count DESC, type ASC;
+		`)
+		.all() as { type: string; count: number }[];
 
-	return rows.map((row) => row.type);
+	return rows.map((row) => ({
+		type: row.type,
+		count: row.count,
+	}));
 }
 
 export function getFlightsByModel(model: string) {
@@ -98,18 +106,4 @@ export function getFlightsByModel(model: string) {
 		destIata: row.dest_iata,
 		timestamp: row.timestamp,
 	}));
-}
-
-export function getModelImageCounts() {
-	const db = getDb();
-	const rows = db
-		.query(`
-      SELECT type, COUNT(*) as count 
-      FROM flights 
-      GROUP BY type 
-      ORDER BY type ASC;
-    `)
-		.all() as { type: string; count: number }[];
-
-	return Object.fromEntries(rows.map((row) => [row.type, row.count]));
 }
