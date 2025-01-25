@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PhoneSetup from "../assets/phone.jpg";
+import YoloBird from "../assets/yolo-bird.png";
 import { Image } from "astro:assets";
 ---
 
@@ -20,6 +21,11 @@ import { Image } from "astro:assets";
           class="text-blue-500"
           href="https://obviy.us/blog/pilane-spotting/">here</a
         >.
+      </p>
+
+      <p>
+        This project is heavily inspired by skybot.cam (RIP), but tries to be a
+        bit more DIY without using an ADS-B receiver or a Cloud vision API.
       </p>
 
       <p class="my-4">
@@ -54,6 +60,11 @@ import { Image } from "astro:assets";
           airline etc.)
         </li>
         <li>Identify fewer birds as planes 🐦</li>
+        <Image
+          src={YoloBird}
+          alt="Yolo bird"
+          class="w-96 mt-4 mx-auto object-cover"
+        />
       </ul>
 
       There's also a Telegram channel where the script posts the images: <a
