@@ -6,4 +6,4 @@ Images and the `flights.db` database is `rsync`'d to the `./data` directory, whi
 
 After the build is done, it gets deployed to Cloudflare Pages using the `wrangler` CLI.
 
-[![Pi-lane Web](./src/assets/pilane-web.jpg)](https://pilane.obviy.us)
+[![Pi-lane Web](./src/assets/pilane-web.png)](https://pilane.obviy.us)
