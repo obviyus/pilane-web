@@ -37,7 +37,12 @@ const flights = await getRecentFlights();
 							</div>
 							<div class="p-5">
 								<h2 class="text-xl font-bold text-gray-900">
-									{flight.callsign}
+									<a
+										class="text-blue-500 underline"
+										href={`https://flightradar24.com/${flight.callsign}/${flight.fr24Id}`}
+									>
+										{flight.callsign}
+									</a>
 								</h2>
 								<p class="text-gray-600 mt-2 font-medium">
 									{flight.operator} • {flight.type}
