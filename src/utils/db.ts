@@ -2,6 +2,18 @@ import { Database } from "bun:sqlite";
 
 let db: Database;
 
+export type Flight = {
+	fr24Id: string;
+	flight: string;
+	callsign: string;
+	type: string;
+	registration: string;
+	operator: string;
+	origIata: string;
+	destIata: string;
+	timestamp: number;
+};
+
 export function getDb() {
 	if (!db) {
 		db = new Database("./data/flights.db", {
@@ -11,7 +23,7 @@ export function getDb() {
 	return db;
 }
 
-export function getRecentFlights() {
+export function getRecentFlights(): Flight[] {
 	const db = getDb();
 	const rows = db
 		.query(`
@@ -70,7 +82,7 @@ export function getUniqueModels() {
 	}));
 }
 
-export function getFlightsByModel(model: string) {
+export function getFlightsByModel(model: string): Flight[] {
 	const db = getDb();
 	const rows = db
 		.query(

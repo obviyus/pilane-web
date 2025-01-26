@@ -1,0 +1,76 @@
+---
+import { Image } from "astro:assets";
+import { formatApproximateTime } from "../utils/dateFormat";
+import { images } from "../utils/imageImports";
+import type { Flight } from "../utils/db";
+
+interface Props {
+  flight: Flight;
+}
+
+const { flight } = Astro.props;
+---
+
+<div
+  class="bg-white border-1 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 backdrop-blur-sm"
+>
+  <div class="relative">
+    <Image
+      src={images[flight.fr24Id] || images["unknown"]}
+      alt={`Flight ${flight.callsign || "Unknown"}`}
+      class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+      width={600}
+      height={400}
+    />
+    <div class="absolute top-3 right-3">
+      {
+        flight.registration && (
+          <span class="bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm font-medium">
+            {flight.registration}
+          </span>
+        )
+      }
+    </div>
+  </div>
+  <div class="p-5">
+    <h2 class="text-xl font-bold text-gray-900">
+      {
+        flight.callsign && flight.fr24Id ? (
+          <a
+            class="text-blue-500 underline"
+            href={`https://flightradar24.com/${flight.callsign}/${flight.fr24Id}`}
+          >
+            {flight.callsign}
+          </a>
+        ) : (
+          <span>Unknown Flight</span>
+        )
+      }
+    </h2>
+    <p class="text-gray-600 mt-2 font-medium">
+      {
+        [flight.operator, flight.type].filter(Boolean).join(" • ") ||
+          "Unknown Aircraft"
+      }
+    </p>
+    {
+      (flight.origIata || flight.destIata) && (
+        <div class="mt-4 flex items-center text-gray-700">
+          <span class="font-semibold">{flight.origIata || "???"}</span>
+          <span class="mx-2">→</span>
+          <span class="font-semibold">{flight.destIata || "???"}</span>
+        </div>
+      )
+    }
+    {
+      flight.timestamp && (
+        <time
+          datetime={flight.timestamp.toString()}
+          class="text-sm text-gray-500 mt-3 block"
+        >
+          {formatApproximateTime(flight.timestamp)}
+        </time>
+      )
+    }
+  </div>
+</div>
