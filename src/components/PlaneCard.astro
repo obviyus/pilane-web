@@ -12,65 +12,113 @@ const { flight } = Astro.props;
 ---
 
 <div
-  class="bg-white border-1 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 backdrop-blur-sm"
+  class="bg-white border-1 shadow-lg overflow-hidden border border-slate-200 font-mono"
 >
   <div class="relative">
     <Image
       src={images[flight.fr24Id] || images["unknown"]}
       alt={`Flight ${flight.callsign || "Unknown"}`}
-      class="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+      class="w-full h-40 object-cover brightness-[1.02] hover:brightness-100 transition-all duration-300"
       width={600}
       height={400}
     />
-    <div class="absolute top-3 right-3">
+    <div class="absolute bottom-2 right-2">
       {
         flight.registration && (
-          <span class="bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm font-medium">
+          <span class="bg-white/90 text-blue-600 px-2 py-0.5 rounded-sm text-xs tracking-wider border border-blue-200">
             {flight.registration}
           </span>
         )
       }
     </div>
   </div>
-  <div class="p-5">
-    <h2 class="text-xl font-bold text-gray-900">
+  <div class="p-4 bg-white text-slate-700 departure-board">
+    <div class="border-b border-slate-100 pb-2">
+      <h2 class="text-xl tracking-wider font-bold">
+        {
+          flight.callsign && flight.fr24Id ? (
+            <a
+              class="text-blue-600 hover:text-blue-700"
+              href={`https://flightradar24.com/${flight.callsign}/${flight.fr24Id}`}
+            >
+              {flight.callsign.padEnd(8, " ")}
+            </a>
+          ) : (
+            <span>UNKNOWN </span>
+          )
+        }
+      </h2>
       {
-        flight.callsign && flight.fr24Id ? (
-          <a
-            class="text-blue-500 underline"
-            href={`https://flightradar24.com/${flight.callsign}/${flight.fr24Id}`}
+        flight.timestamp && (
+          <time
+            datetime={flight.timestamp.toString()}
+            class="text-xs text-slate-500 block mt-1"
           >
-            {flight.callsign}
-          </a>
-        ) : (
-          <span>Unknown Flight</span>
+            {formatApproximateTime(flight.timestamp)}
+          </time>
         )
       }
-    </h2>
-    <p class="text-gray-600 mt-2 font-medium">
-      {
-        [flight.operator, flight.type].filter(Boolean).join(" • ") ||
-          "Unknown Aircraft"
-      }
-    </p>
-    {
-      (flight.origIata || flight.destIata) && (
-        <div class="mt-4 flex items-center text-gray-700">
-          <span class="font-semibold">{flight.origIata || "N/A"}</span>
-          <span class="mx-2">→</span>
-          <span class="font-semibold">{flight.destIata || "N/A"}</span>
-        </div>
-      )
-    }
-    {
-      flight.timestamp && (
-        <time
-          datetime={flight.timestamp.toString()}
-          class="text-sm text-gray-500 mt-3 block"
+    </div>
+
+    <div class="py-2 border-b border-slate-100 text-sm">
+      <span class="font-semibold"
+        >{
+          [flight.operator, flight.type].filter(Boolean).join(" • ") ||
+            "UNKNOWN"
+        }</span
+      >
+    </div>
+
+    <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm mt-2">
+      <div class="grid grid-cols-[120px_auto] gap-x-4 col-span-2 py-1">
+        <span class="text-slate-500">ROUTE</span>
+        <span class="tracking-wider font-medium"
+          >{flight.origIata || "---"} → {flight.destIata || "---"}</span
         >
-          {formatApproximateTime(flight.timestamp)}
-        </time>
-      )
-    }
+      </div>
+      <div
+        class="grid grid-cols-[120px_auto] gap-x-4 col-span-2 py-1 bg-slate-50"
+      >
+        <span class="text-slate-500">ALTITUDE</span>
+        <span class="tracking-wider font-medium"
+          >{flight.altitude?.toLocaleString() || "---"} FT</span
+        >
+      </div>
+      <div class="grid grid-cols-[120px_auto] gap-x-4 col-span-2 py-1">
+        <span class="text-slate-500">GROUND SPEED</span>
+        <span class="tracking-wider font-medium"
+          >{flight.groundSpeed?.toLocaleString() || "---"} KTS</span
+        >
+      </div>
+      <div
+        class="grid grid-cols-[120px_auto] gap-x-4 col-span-2 py-1 bg-slate-50"
+      >
+        <span class="text-slate-500">VERT. SPEED</span>
+        <span class="tracking-wider font-medium"
+          >{flight.verticalSpeed?.toLocaleString() || "---"} FT/MIN</span
+        >
+      </div>
+    </div>
   </div>
 </div>
+
+<style>
+  .departure-board {
+    background-image: linear-gradient(
+      0deg,
+      rgba(51, 65, 85, 0.03) 1px,
+      transparent 1px
+    );
+    background-size: 100% 2px;
+    animation: scan 8s linear infinite;
+  }
+
+  @keyframes scan {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 4px;
+    }
+  }
+</style>

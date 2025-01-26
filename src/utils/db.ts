@@ -3,15 +3,25 @@ import { Database } from "bun:sqlite";
 let db: Database;
 
 export type Flight = {
-	fr24Id: string;
-	flight: string;
+	altitude: number;
 	callsign: string;
-	type: string;
-	registration: string;
+	destIata: string;
+	destIcao: string;
+	eta: number;
+	flight: string;
+	fr24Id: string;
+	groundSpeed: number;
+	latitude: number;
+	longitude: number;
 	operator: string;
 	origIata: string;
-	destIata: string;
+	origIcao: string;
+	registration: string;
+	squawk: string;
 	timestamp: number;
+	track: number;
+	type: string;
+	verticalSpeed: number;
 };
 
 export function getDb() {
@@ -35,33 +45,63 @@ export function getRecentFlights(): Flight[] {
 			registration,
 			operator,
 			orig_iata,
+			orig_icao,
 			dest_iata,
-			timestamp
+			dest_icao,
+			altitude,
+			ground_speed,
+			vertical_speed,
+			track,
+			squawk,
+			latitude,
+			longitude,
+			timestamp,
+			eta
 		FROM flights 
 		ORDER BY timestamp DESC;
 	`)
 		.all() as {
-		fr24_id: string;
-		flight: string;
+		altitude: number;
 		callsign: string;
-		type: string;
-		registration: string;
+		dest_iata: string;
+		dest_icao: string;
+		eta: number;
+		flight: string;
+		fr24_id: string;
+		ground_speed: number;
+		latitude: number;
+		longitude: number;
 		operator: string;
 		orig_iata: string;
-		dest_iata: string;
+		orig_icao: string;
+		registration: string;
+		squawk: string;
 		timestamp: number;
+		track: number;
+		type: string;
+		vertical_speed: number;
 	}[];
 
 	return rows.map((row) => ({
-		fr24Id: row.fr24_id,
-		flight: row.flight,
+		altitude: row.altitude,
 		callsign: row.callsign,
-		type: row.type,
-		registration: row.registration,
+		destIata: row.dest_iata,
+		destIcao: row.dest_icao,
+		eta: row.eta,
+		flight: row.flight,
+		fr24Id: row.fr24_id,
+		groundSpeed: row.ground_speed,
+		latitude: row.latitude,
+		longitude: row.longitude,
 		operator: row.operator,
 		origIata: row.orig_iata,
-		destIata: row.dest_iata,
+		origIcao: row.orig_icao,
+		registration: row.registration,
+		squawk: row.squawk,
 		timestamp: row.timestamp,
+		track: row.track,
+		type: row.type,
+		verticalSpeed: row.vertical_speed,
 	}));
 }
 
@@ -88,7 +128,7 @@ export function getFlightsByModel(model: string): Flight[] {
 		.query(
 			`SELECT 
         fr24_id, flight, callsign, type, registration,
-        operator, orig_iata, dest_iata, timestamp
+		operator, orig_iata, orig_icao, dest_iata, dest_icao, timestamp, altitude, ground_speed, vertical_speed, track, squawk, latitude, longitude, eta
       FROM flights 
       WHERE type = $model
       ORDER BY timestamp DESC;`,
@@ -96,26 +136,46 @@ export function getFlightsByModel(model: string): Flight[] {
 		.all({
 			$model: model,
 		}) as {
-		fr24_id: string;
-		flight: string;
+		altitude: number;
 		callsign: string;
-		type: string;
-		registration: string;
+		dest_iata: string;
+		dest_icao: string;
+		eta: number;
+		flight: string;
+		fr24_id: string;
+		ground_speed: number;
+		latitude: number;
+		longitude: number;
 		operator: string;
 		orig_iata: string;
-		dest_iata: string;
+		orig_icao: string;
+		registration: string;
+		squawk: string;
 		timestamp: number;
+		track: number;
+		type: string;
+		vertical_speed: number;
 	}[];
 
 	return rows.map((row) => ({
-		fr24Id: row.fr24_id,
-		flight: row.flight,
+		altitude: row.altitude,
 		callsign: row.callsign,
-		type: row.type,
-		registration: row.registration,
+		destIata: row.dest_iata,
+		destIcao: row.dest_icao,
+		eta: row.eta,
+		flight: row.flight,
+		fr24Id: row.fr24_id,
+		groundSpeed: row.ground_speed,
+		latitude: row.latitude,
+		longitude: row.longitude,
 		operator: row.operator,
 		origIata: row.orig_iata,
-		destIata: row.dest_iata,
+		origIcao: row.orig_icao,
+		registration: row.registration,
+		squawk: row.squawk,
 		timestamp: row.timestamp,
+		track: row.track,
+		type: row.type,
+		verticalSpeed: row.vertical_speed,
 	}));
 }
