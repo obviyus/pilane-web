@@ -56,9 +56,9 @@ const { flight } = Astro.props;
     {
       (flight.origIata || flight.destIata) && (
         <div class="mt-4 flex items-center text-gray-700">
-          <span class="font-semibold">{flight.origIata || "???"}</span>
+          <span class="font-semibold">{flight.origIata || "N/A"}</span>
           <span class="mx-2">→</span>
-          <span class="font-semibold">{flight.destIata || "???"}</span>
+          <span class="font-semibold">{flight.destIata || "N/A"}</span>
         </div>
       )
     }
