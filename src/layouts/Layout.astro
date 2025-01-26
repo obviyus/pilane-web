@@ -1,19 +1,25 @@
 ---
 interface Props {
 	title?: string;
+	description?: string;
+	previewImage?: string;
+	permalink?: string;
 }
 
-const { title = "Pi-lane Spotting" } = Astro.props;
+const title = Astro.props.title || "✈️ Pi-lane Spotting";
+const description =
+	Astro.props.description ||
+	"DIY plane spotting with a Raspberry Pi and an Android phone";
+const previewImage =
+	Astro.props.previewImage || "https://plane.obviy.us/preview.jpg";
+const permalink = Astro.props.permalink || "https://plane.obviy.us";
 ---
 
 <!doctype html>
 <html lang="en" class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
 	<head>
 		<meta charset="UTF-8" />
-		<meta
-			name="description"
-			content="DIY plane spotting with a Raspberry Pi and an Android phone"
-		/>
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
@@ -23,7 +29,26 @@ const { title = "Pi-lane Spotting" } = Astro.props;
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
 			rel="stylesheet"
 		/>
+
+		<!-- Primary Meta Tags -->
 		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<link rel="canonical" href={permalink} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={permalink} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={previewImage} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={permalink} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={previewImage} />
 	</head>
 	<body class="min-h-screen flex flex-col relative">
 		<div class="fixed inset-0 bg-gradient-to-b from-gray-50 to-white -z-10">
